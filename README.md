@@ -2,10 +2,12 @@
 ### Slack slash command that uses forecast.io to generate current weather and a near future forecast
 
 You can search for the weather in various locations by using zip codes
+
 ![example image 1](http://i.imgur.com/dK2ehKy.png)
 
 
 You can also search by using landmarks, or other places of interest (powered by the Google Maps api)
+
 ![example image 2](http://i.imgur.com/iHJzQSn.png)
 
 
