@@ -56,7 +56,7 @@ def generate_attachment
   @types = generate_request[0]["types"][0]
   @cost = generate_request[0]["cost"].gsub('{','').gsub('}','')
 
-  replacements = [ ["W", ":white_circle:"], ["U", ":large_blue_circle:"],["B", ":black_circle:"],["R", ":red_circle:"],["G", ":tennis:"]
+  replacements = [ ["W", ":white_circle:"], ["U", ":large_blue_circle:"],["B", ":black_circle:"],["R", ":red_circle:"],["G", ":tennis:"] ]
   replacements.each {|replacement| @cost.gsub!(replacement[0], replacement[1])}
 
   response = {
