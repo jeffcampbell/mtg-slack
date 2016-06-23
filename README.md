@@ -1,5 +1,6 @@
 # mtg-slack
 ### Slack slash command that retrieves Magic: The Gathering card information
+![example image](https://raw.githubusercontent.com/jeffcampbell/mtg-slack/master/readme/screenshot.png)
 
 ### What you will need
 * A [Heroku](http://www.heroku.com) account
