@@ -53,5 +53,21 @@ end
 def generate_attachment
   @cardtext = generate_request[0]["text"]
   @imageurl = generate_request[0]["editions"][0]["image_url"]
-  response = { text: "#{@cardtext} #{@imageurl}" }
+  @types = generate_request[0]["types"][0]
+  @cost = generate_request[0]["cost"]
+  response = {
+            text: "#{@cardtext}",
+            fields: [
+                {
+                    "title": "Types",
+                    "value": "#{@types}",
+                    "short": true
+                },
+                {
+                    "title": "Cost",
+                    "value": "#{@cost}",
+                    "short": true
+                },
+            ],
+            image_url: "#{@imageurl}" }
 end
