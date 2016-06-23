@@ -10,8 +10,6 @@ configure do
   $stdout.sync = true
 end
 
-Geocoder.configure(:lookup => :google, :api_key => ENV["GOOGLE_API_KEY"], :use_https => true)
-
 get "/" do
   ""
 end
@@ -34,16 +32,12 @@ end
 end
 
 def generate_request
-  @user_query = params[:text]
+  @user_query = params[:text].gsub(/\s/,'+')
 
   if @user_query.length == 0
-    uri = "https://api.forecast.io/forecast/#{ENV["FORECAST_API_KEY"]}/#{ENV["DEFAULT_LATLON"]}"
+    uri = "https://api.deckbrew.com/mtg/colors"
   else
-    locresults = Geocoder.coordinates("#{@user_query}")
-    lat = locresults[0]
-    lng = locresults[1]
-
-    uri = "https://api.forecast.io/forecast/#{ENV["FORECAST_API_KEY"]}/#{lat},#{lng}"
+    uri = "https://api.deckbrew.com/mtg/cards?name=#{@user_query}"
   end
 
   request = HTTParty.get(uri)
@@ -51,43 +45,13 @@ def generate_request
   result = JSON.parse(request.body)
 end
 
-def generate_emoji
-  @currently = generate_request["currently"]
-  currentIcon = @currently["icon"]
-  if currentIcon == "clear-day"
-  emoji = ":sunny:"
-  elsif currentIcon = "clear-night"
-  emoji = ":milky_way:"
-  elsif currentIcon == "rain"
-  emoji = ":umbrella:"
-  elsif currentIcon == "snow"
-  emoji = ":snowflake:"
-  elsif currentIcon == "sleet"
-  emoji = ":snowflake: :umbrella:"
-  elsif currentIcon == "wind"
-  emoji = ":dash:"
-  elsif currentIcon == "fog"
-  emoji = ":foggy:"
-  elsif currentIcon == "cloudy"
-  emoji = ":cloud:"
-  elsif currentIcon == "partly-cloudy-day"
-  emoji = ":partly_sunny:"
-  elsif currentIcon == "partly-cloudy-night"
-  emoji = ":cloud:"
-  else
-  emoji = ":partly_sunny:"
-  end
-end
-
 def generate_text
-  @currently = generate_request["currently"]
-  currentSummary = @currently["summary"]
-  currentTemp = @currently["temperature"]
-  response = "It is #{currentTemp} degrees. #{currentSummary} #{generate_emoji}"
+  @cardname = generate_request[0]["name"]
+  response = "#{@cardname}"
 end
 
 def generate_attachment
-  @tomorrow = generate_request["daily"]
-  tomorrowSummary = @tomorrow["summary"]
-  response = { text: "#{tomorrowSummary}" }
+  @cardtext = generate_request[0]["text"]
+  @imageurl = generate_request[0]["editions"][0]["image_url"]
+  response = { text: "#{@cardtext} #{@imageurl}" }
 end
