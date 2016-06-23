@@ -46,7 +46,7 @@ def generate_request
 end
 
 def generate_text
-  unless generate_request.nil
+  unless generate_request.nil?
     @cardname = generate_request[0]["name"]
     response = "#{@cardname}"
   end
@@ -55,7 +55,7 @@ end
 
 def generate_attachment
   replacements = [ ["{W}", ":white_circle:"], ["{U}", ":large_blue_circle:"],["{B}", ":black_circle:"],["{R}", ":red_circle:"],["{G}", ":tennis:"],["{", ""],["}", ""] ]
-  unless generate_request.nil
+  unless generate_request.nil?
   @cardtext = generate_request[0]["text"]
   @imageurl = generate_request[0]["editions"][0]["image_url"]
   @types = generate_request[0]["types"][0]
