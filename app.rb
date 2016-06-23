@@ -54,7 +54,11 @@ def generate_attachment
   @cardtext = generate_request[0]["text"]
   @imageurl = generate_request[0]["editions"][0]["image_url"]
   @types = generate_request[0]["types"][0]
-  @cost = generate_request[0]["cost"]
+  @cost = generate_request[0]["cost"].gsub('{','').gsub('}','')
+
+  replacements = [ ["W", ":white_circle:"], ["U", ":large_blue_circle:"],["B", ":black_circle:"],["R", ":red_circle:"],["G", ":tennis:"]
+  replacements.each {|replacement| @cost.gsub!(replacement[0], replacement[1])}
+
   response = {
             text: "#{@cardtext}",
             fields: [
