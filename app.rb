@@ -47,8 +47,10 @@ end
 
 def generate_text
   unless generate_request.nil
-  @cardname = generate_request[0]["name"]
-  response = "#{@cardname}"
+    @cardname = generate_request[0]["name"]
+    response = "#{@cardname}"
+  end
+  response
 end
 
 def generate_attachment
@@ -77,4 +79,6 @@ def generate_attachment
                 },
             ],
             image_url: "#{@imageurl}" }
+  end
+response
 end
